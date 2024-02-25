@@ -9,13 +9,19 @@ import SwiftUI
 import Kingfisher
 
 struct SearchView: View {
-    private let service: FlickerManager
     @StateObject var viewModel: SearchViewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass: UserInterfaceSizeClass?
     
-    init(service: FlickerManager) {
-        self.service = service
-        self._viewModel = StateObject(wrappedValue: SearchViewModel(service: service))
+    init() {
+        #if DEBUG
+        if UITestingHelper.isUITesting {
+            self._viewModel = StateObject(wrappedValue: SearchViewModel(service: MockNetworkManager(isSuccess: UITestingHelper.isNetworkingSuccessful)))
+        } else {
+            self._viewModel = StateObject(wrappedValue: SearchViewModel())
+        }
+        #else
+        self._viewModel = StateObject(wrappedValue: SearchViewModel())
+        #endif
     }
     
     var body: some View {
@@ -30,9 +36,11 @@ struct SearchView: View {
                                     .scaledToFill()
                                     .frame(width: viewModel.imageDimensions, height: viewModel.imageDimensions)
                                     .clipped()
+                                    .accessibilityIdentifier("searchImage_\(post.id)")
                             }
                         }
                     }
+                    .accessibilityIdentifier("gridCollectionView")
                     .searchable(text: $viewModel.searchText, prompt: "Search ...")
                     .onChange(of: viewModel.debounceSearchText) { _, newValue in
                         Task { await viewModel.fetchImages(newValue) }
@@ -65,5 +73,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView(service: MockNetworkManager())
+    SearchView()
 }

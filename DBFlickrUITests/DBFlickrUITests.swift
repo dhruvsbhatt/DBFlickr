@@ -9,36 +9,40 @@ import XCTest
 
 final class DBFlickrUITests: XCTestCase {
     
-    let app = XCUIApplication()
+    private var app: XCUIApplication!
     
     override func setUpWithError() throws {
         continueAfterFailure = false
+        app = XCUIApplication()
+        app.launchArguments = ["-ui-testing"]
+        app.launchEnvironment = ["-networking-success": "1"]
         app.launch()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        app = nil
     }
-
-    func testSearchGrid() {
+    
+    func test_grid_correct_number_of_items() {
         let searchBar = app.searchFields.firstMatch
         searchBar.tap()
-        searchBar.typeText("dart")
+        searchBar.typeText("porcupine")
         searchBar.typeText("\n")
         
-        let expectation = XCTestExpectation(description: "Wait for grid response")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 3)
-        
         let imageGrid = app.otherElements["gridCollectionView"]
-        XCTAssertTrue(imageGrid.exists)
+        XCTAssertTrue(imageGrid.waitForExistence(timeout: 5), "Grid is visible")
         
-        imageGrid.swipeUp()
+        let predicate = NSPredicate(format: "identifier CONTAINS 'searchImage_'")
+        let gridItems = imageGrid.buttons.containing(predicate)
+        XCTAssertEqual(gridItems.count, 20, "There should be 20 items")
         
-        let button = imageGrid.buttons["imageCell18"].firstMatch
+        let button = gridItems.firstMatch
         XCTAssertTrue(button.isHittable)
         button.tap()
+        
+        // Verifying detail screen
+        
+        XCTAssertEqual(app.navigationBars.element.identifier, "Detail")
+        XCTAssertTrue(app.staticTexts["Rico - Porcupine"].exists)
     }
 }

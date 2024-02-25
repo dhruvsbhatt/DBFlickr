@@ -18,7 +18,7 @@ final class SearchViewModel: ObservableObject {
     @Published var seleectedPost: Flickr?
     private let service: FlickerManager
     
-    init(service: FlickerManager) {
+    init(service: FlickerManager = NetworkManager()) {
         self.service = service
         self.debounceTextChanges()
     }

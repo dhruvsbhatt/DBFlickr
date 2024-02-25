@@ -11,17 +11,7 @@ import XCTest
 class DBFlickrTests: XCTestCase {
 
     func testSuccessfulImageResponse() async {
-        let service = MockNetworkManager()
-        guard let url = Bundle.main.url(forResource: "TestData", withExtension: "json") else {
-            return
-        }
-        let data: Data
-        do {
-            data = try Data(contentsOf: url)
-        } catch {
-            return
-        }
-        service.mockData = data
+        let service = MockNetworkManager(isSuccess: true)
         let viewModel = SearchViewModel(service: service)
         
         await viewModel.fetchImages("car")
@@ -31,17 +21,7 @@ class DBFlickrTests: XCTestCase {
     }
     
     func testImageFetchInvalidJson() async {
-        let service = MockNetworkManager()
-        guard let url = Bundle.main.url(forResource: "InvalidResponse", withExtension: "json") else {
-            return
-        }
-        let data: Data
-        do {
-            data = try Data(contentsOf: url)
-        } catch {
-            return
-        }
-        service.mockData = data
+        let service = MockNetworkManager(isSuccess: false)
         let viewModel = SearchViewModel(service: service)
         
         await viewModel.fetchImages("car")

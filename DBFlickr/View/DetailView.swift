@@ -26,6 +26,7 @@ struct DetailView: View {
                     Text(self.showDimensions)
                     Text(post.title)
                         .font(.title)
+                        .accessibilityIdentifier("DetailTitle")
                     Text("Posted by: " + formattedUsername)
                         .font(.title2)
                         .fontWeight(.medium)
