@@ -13,7 +13,6 @@ protocol FlickerManager {
 
 final class NetworkManager: FlickerManager {
     
-    static let shared = NetworkManager()
     let baseURL = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=1&tags="
         
     func fetchImages(_ tag: String) async throws -> [Flickr] {

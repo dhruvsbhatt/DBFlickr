@@ -19,10 +19,11 @@ struct DetailView: View {
                 KFImage(URL(string: post.media.image))
                     .resizable()
                     .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width, height: 400)
+                    .frame(width: imageSize.width, height: imageSize.height)
                     .clipShape(Rectangle())
                 
                 VStack(alignment: .leading, spacing: 10) {
+                    Text(self.showDimensions)
                     Text(post.title)
                         .font(.title)
                     Text("Posted by: " + formattedUsername)
@@ -51,6 +52,25 @@ struct DetailView: View {
                 ActivityView(showing: $isSheetOpen, activityItems: post)
             })
         }
+    }
+    
+    private var imageSize: CGSize {
+        do {
+            let doc = try SwiftSoup.parse(post.description)
+            if let strWidth = try doc.select("img[width]").array().compactMap({ try? $0.attr("width").description }).first,
+               let dblWidth = Double(strWidth),
+               let strHeight = try doc.select("img[height]").array().compactMap({ try? $0.attr("height").description }).first,
+               let dblHeight = Double(strHeight) {
+                return CGSize(width: dblWidth, height: dblHeight)
+            }
+        } catch {
+            print("Error parsing the html for width and height")
+        }
+        return CGSizeZero
+    }
+    
+    private var showDimensions: String {
+        return "Width: \(imageSize.width) and Height: \(imageSize.height)"
     }
     
     private var formattedUsername: String {

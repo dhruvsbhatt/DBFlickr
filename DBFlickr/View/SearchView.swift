@@ -8,17 +8,10 @@
 import SwiftUI
 import Kingfisher
 
-private let gridItems: [GridItem] = [
-    .init(.flexible(), spacing: 1),
-    .init(.flexible(), spacing: 1),
-    .init(.flexible(), spacing: 1)
-]
-
-private let imageDimensions: CGFloat = (UIScreen.main.bounds.width / 3) - 1
-
 struct SearchView: View {
     private let service: FlickerManager
     @StateObject var viewModel: SearchViewModel
+    @Environment(\.verticalSizeClass) private var verticalSizeClass: UserInterfaceSizeClass?
     
     init(service: FlickerManager) {
         self.service = service
@@ -29,13 +22,13 @@ struct SearchView: View {
         ZStack {
             NavigationStack {
                 ScrollView {
-                    LazyVGrid(columns: gridItems, spacing: 1) {
+                    LazyVGrid(columns: viewModel.columns, spacing: 1) {
                         ForEach(viewModel.flickrImages) { post in
                             NavigationLink(value: post) {
                                 KFImage(URL(string: post.media.image))
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: imageDimensions, height: imageDimensions)
+                                    .frame(width: viewModel.imageDimensions, height: viewModel.imageDimensions)
                                     .clipped()
                             }
                         }
@@ -61,6 +54,12 @@ struct SearchView: View {
             if viewModel.isLoading {
                 LoadingView()
             }
+        }
+        .onChange(of: verticalSizeClass) { _, _ in
+            viewModel.updateLayout(verticalSizeClass: verticalSizeClass!)
+        }
+        .onAppear {
+            viewModel.updateLayout(verticalSizeClass: verticalSizeClass!)
         }
     }
 }
