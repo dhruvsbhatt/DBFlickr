@@ -39,4 +39,14 @@ class DBFlickrTests: XCTestCase {
         XCTAssertNotNil(viewModel.errorMessage)
         XCTAssertEqual(viewModel.errorMessage, FlickrError.invalidStatusCode(statusCode: 404).customDescription)
     }
+    
+    func testStringExtensionWrongDateInput() {
+        let strInput = "12/01/2024"
+        XCTAssertEqual(strInput.timestampString(), "")
+    }
+    
+    func testStringExtensionCorrectDateInput() {
+        let strInput = "2024-02-14T23:36:51Z"
+        XCTAssertEqual(strInput.timestampString(), "February 14, 2024")
+    }
 }

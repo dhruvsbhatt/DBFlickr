@@ -21,7 +21,6 @@
 		FC19CEF62B7EC17900AAC4F7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FC19CEF52B7EC17900AAC4F7 /* Kingfisher */; };
 		FC19CEF82B7EC30C00AAC4F7 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC19CEF72B7EC30C00AAC4F7 /* DetailView.swift */; };
 		FC19CEFD2B7ECBAE00AAC4F7 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC19CEFC2B7ECBAE00AAC4F7 /* StringExtension.swift */; };
-		FC19CF002B7ED0A700AAC4F7 /* AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC19CEFF2B7ED0A700AAC4F7 /* AttributedText.swift */; };
 		FC19CF022B7EDC3D00AAC4F7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC19CF012B7EDC3D00AAC4F7 /* LoadingView.swift */; };
 		FC19CF042B7EE6C700AAC4F7 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC19CF032B7EE6C700AAC4F7 /* MockNetworkManager.swift */; };
 		FC19CF0B2B7EFE6800AAC4F7 /* TestData.json in Resources */ = {isa = PBXBuildFile; fileRef = FC19CF0A2B7EFE6800AAC4F7 /* TestData.json */; };
@@ -66,7 +65,6 @@
 		FC19CEF22B7EAD2300AAC4F7 /* FlickrError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrError.swift; sourceTree = "<group>"; };
 		FC19CEF72B7EC30C00AAC4F7 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		FC19CEFC2B7ECBAE00AAC4F7 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		FC19CEFF2B7ED0A700AAC4F7 /* AttributedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedText.swift; sourceTree = "<group>"; };
 		FC19CF012B7EDC3D00AAC4F7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		FC19CF032B7EE6C700AAC4F7 /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
 		FC19CF0A2B7EFE6800AAC4F7 /* TestData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestData.json; sourceTree = "<group>"; };
@@ -75,6 +73,7 @@
 		FC5CB9EA2B8BDD5000DBC754 /* UITestingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestingHelper.swift; sourceTree = "<group>"; };
 		FC7014F02B7FDFC800FC9726 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FC7014F12B7FE0E400FC9726 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FC9E4ACB2B8D73FA00C4AD8B /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +153,7 @@
 		FC19CECA2B7EA22500AAC4F7 /* DBFlickrTests */ = {
 			isa = PBXGroup;
 			children = (
+				FC9E4ACB2B8D73FA00C4AD8B /* TestPlan.xctestplan */,
 				FC7014F02B7FDFC800FC9726 /* Info.plist */,
 				FC19CF052B7EF18800AAC4F7 /* Resources */,
 				FC19CECB2B7EA22500AAC4F7 /* DBFlickrTests.swift */,
@@ -232,7 +232,6 @@
 		FC19CEFE2B7ED08800AAC4F7 /* UIKitComponents */ = {
 			isa = PBXGroup;
 			children = (
-				FC19CEFF2B7ED0A700AAC4F7 /* AttributedText.swift */,
 				FC48F7192B7F132E005A8B91 /* ShareSheet.swift */,
 			);
 			path = UIKitComponents;
@@ -401,7 +400,6 @@
 				FC19CEF02B7EA9A200AAC4F7 /* Flickr.swift in Sources */,
 				FC19CF022B7EDC3D00AAC4F7 /* LoadingView.swift in Sources */,
 				FC19CF042B7EE6C700AAC4F7 /* MockNetworkManager.swift in Sources */,
-				FC19CF002B7ED0A700AAC4F7 /* AttributedText.swift in Sources */,
 				FC19CEF82B7EC30C00AAC4F7 /* DetailView.swift in Sources */,
 				FC48F71A2B7F132E005A8B91 /* ShareSheet.swift in Sources */,
 				FC5CB9EC2B8BDDBB00DBC754 /* UITestingHelper.swift in Sources */,

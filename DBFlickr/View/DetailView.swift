@@ -47,6 +47,7 @@ struct DetailView: View {
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
+                    .accessibilityIdentifier("ShareSheetButtonIdentifier")
                 }
             }
             .sheet(isPresented: $isSheetOpen, content: {

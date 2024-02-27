@@ -44,5 +44,9 @@ final class DBFlickrUITests: XCTestCase {
         
         XCTAssertEqual(app.navigationBars.element.identifier, "Detail")
         XCTAssertTrue(app.staticTexts["Rico - Porcupine"].exists)
+        
+        let shareButton = app.buttons["ShareSheetButtonIdentifier"]
+        XCTAssertTrue(shareButton.isHittable)
+        shareButton.tap()
     }
 }

@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "0F8C675B-124D-4E70-ABD5-E6716205DF32",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DBFlickr.xcodeproj",
+        "identifier" : "FC19CEC62B7EA22500AAC4F7",
+        "name" : "DBFlickrTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:DBFlickr.xcodeproj",
+        "identifier" : "FC19CED02B7EA22500AAC4F7",
+        "name" : "DBFlickrUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
