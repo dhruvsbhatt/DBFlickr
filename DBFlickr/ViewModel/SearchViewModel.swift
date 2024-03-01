@@ -15,7 +15,7 @@ final class SearchViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var isDetailShowing = false
     @Published var errorMessage: String?
-    @Published var seleectedPost: Flickr?
+    @Published var selectedPost: Flickr?
     private let service: FlickerManager
     
     init(service: FlickerManager = NetworkManager()) {

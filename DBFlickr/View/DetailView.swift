@@ -12,15 +12,43 @@ import Kingfisher
 struct DetailView: View {
     let post: Flickr
     @State var isSheetOpen = false
+    @State private var currentZoom = 0.0
+    @State private var totalZoom = 1.0
+       
     
     var body: some View {
         ScrollView {
             VStack() {
                 KFImage(URL(string: post.media.image))
                     .resizable()
-                    .scaledToFill()
+                    .scaledToFit()
                     .frame(width: imageSize.width, height: imageSize.height)
-                    .clipShape(Rectangle())
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .accessibilityAddTraits(.isImage)
+                    .scaleEffect(currentZoom + totalZoom)
+                    .clipped()
+                    .gesture(
+                        MagnifyGesture()
+                            .onChanged { value in
+                                currentZoom = value.magnification - 1
+                            }
+                            .onEnded { value in
+                                totalZoom += currentZoom
+                                currentZoom = 0
+                                if value.magnification < 1.0 {
+                                    withAnimation {
+                                        totalZoom = 1.0
+                                    }
+                                }
+                            }
+                    )
+                    .accessibilityZoomAction { action in
+                        if action.direction == .zoomIn {
+                            totalZoom += 1
+                        } else {
+                            totalZoom -= 1
+                        }
+                    }
                 
                 VStack(alignment: .leading, spacing: 10) {
                     Text(self.showDimensions)
@@ -44,10 +72,13 @@ struct DetailView: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
                         isSheetOpen.toggle()
+                        AccessibilityNotification.Announcement("Loading share screen")
+                            .post()
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
                     .accessibilityIdentifier("ShareSheetButtonIdentifier")
+                    .accessibilityAddTraits(.isToggle)
                 }
             }
             .sheet(isPresented: $isSheetOpen, content: {
