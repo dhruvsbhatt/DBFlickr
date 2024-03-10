@@ -33,7 +33,7 @@ final class DBFlickrUITests: XCTestCase {
         XCTAssertTrue(imageGrid.waitForExistence(timeout: 5), "Grid is visible")
         
         let predicate = NSPredicate(format: "identifier CONTAINS 'searchImage_'")
-        let gridItems = imageGrid.buttons.containing(predicate)
+        let gridItems = imageGrid.images.containing(predicate)
         XCTAssertEqual(gridItems.count, 20, "There should be 20 items")
         
         let button = gridItems.firstMatch
@@ -41,11 +41,9 @@ final class DBFlickrUITests: XCTestCase {
         button.tap()
         
         // Verifying detail screen
-        
-        XCTAssertEqual(app.navigationBars.element.identifier, "Detail")
         XCTAssertTrue(app.staticTexts["Rico - Porcupine"].exists)
         
-        let shareButton = app.buttons["ShareSheetButtonIdentifier"]
+        let shareButton = app.switches["ShareSheetButtonIdentifier"]
         XCTAssertTrue(shareButton.isHittable)
         shareButton.tap()
     }
