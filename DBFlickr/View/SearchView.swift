@@ -6,22 +6,22 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct SearchView: View {
     @StateObject var viewModel: SearchViewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass: UserInterfaceSizeClass?
+    @Namespace var namespace
     
     init() {
-        #if DEBUG
+#if DEBUG
         if UITestingHelper.isUITesting {
             self._viewModel = StateObject(wrappedValue: SearchViewModel(service: MockNetworkManager(isSuccess: UITestingHelper.isNetworkingSuccessful)))
         } else {
             self._viewModel = StateObject(wrappedValue: SearchViewModel())
         }
-        #else
+#else
         self._viewModel = StateObject(wrappedValue: SearchViewModel())
-        #endif
+#endif
     }
     
     var body: some View {
@@ -30,14 +30,21 @@ struct SearchView: View {
                 ScrollView {
                     LazyVGrid(columns: viewModel.columns, spacing: 1) {
                         ForEach(viewModel.flickrImages) { post in
-                            NavigationLink(value: post) {
-                                KFImage(URL(string: post.media.image))
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: viewModel.imageDimensions, height: viewModel.imageDimensions)
-                                    .clipped()
-                                    .accessibilityIdentifier("searchImage_\(post.id)")
-                            }
+                            FlickrImageView(post: post)
+                                .scaledToFill()
+                                .matchedGeometryEffect(id: post.id, in: namespace)
+                                .frame(width: viewModel.imageDimensions, height: viewModel.imageDimensions)
+                                .clipped()
+                                .onTapGesture {
+                                    withAnimation {
+                                        viewModel.selectImage(post)
+                                        viewModel.isDetailShowing.toggle()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            viewModel.loadDetails.toggle()
+                                        }
+                                    }
+                                }
+                                .accessibilityIdentifier("searchImage_\(post.id)")
                         }
                     }
                     .accessibilityIdentifier("gridCollectionView")
@@ -46,12 +53,8 @@ struct SearchView: View {
                         Task { await viewModel.fetchImages(newValue) }
                     }
                 }
+                .opacity(viewModel.selectedPost == nil ? 1 : 0)
                 .navigationTitle("Flikr")
-                .navigationDestination(for: Flickr.self) { post in
-                    withAnimation(.easeInOut) {
-                        DetailView(post: post)
-                    }
-                }
             }
             .overlay {
                 if viewModel.flickrImages.isEmpty, !viewModel.isLoading {
@@ -61,6 +64,11 @@ struct SearchView: View {
             
             if viewModel.isLoading {
                 LoadingView()
+            }
+            
+            if viewModel.isDetailShowing {
+                FlickrDetailView(post: viewModel.selectedPost!, namespace: namespace, viewModel: viewModel)
+                    .zIndex(1)
             }
         }
         .onChange(of: verticalSizeClass) { _, _ in

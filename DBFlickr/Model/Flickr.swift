@@ -11,9 +11,8 @@ struct FlickrItems: Decodable {
     let items: [Flickr]
 }
 
-struct Flickr: Identifiable, Hashable, Decodable {
+struct Flickr: Hashable, Decodable {
     
-    var id = UUID().uuidString
     let media: Media
     let title: String
     let description: String
@@ -34,6 +33,9 @@ struct Media: Decodable, Hashable {
     }
 }
 
+extension Flickr: Identifiable {
+    var id: String { author + link }
+}
 
 extension Flickr {
     static var MockImages: [Flickr] = [.init(media: Media(image: "https://live.staticflickr.com/65535/53528258724_1d189ae035_m.jpg"),

@@ -12,43 +12,60 @@ import Kingfisher
 struct DetailView: View {
     let post: Flickr
     @State var isSheetOpen = false
-    @State private var currentZoom = 0.0
-    @State private var totalZoom = 1.0
-       
+    let namespace: Namespace.ID
+    @ObservedObject var viewModel: SearchViewModel
     
     var body: some View {
         ScrollView {
-            VStack() {
-                KFImage(URL(string: post.media.image))
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: imageSize.width, height: imageSize.height)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .accessibilityAddTraits(.isImage)
-                    .scaleEffect(currentZoom + totalZoom)
-                    .clipped()
-                    .gesture(
-                        MagnifyGesture()
-                            .onChanged { value in
-                                currentZoom = value.magnification - 1
-                            }
-                            .onEnded { value in
-                                totalZoom += currentZoom
-                                currentZoom = 0
-                                if value.magnification < 1.0 {
-                                    withAnimation {
-                                        totalZoom = 1.0
-                                    }
+            VStack {
+                ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
+                    FlickrImageView(post: post)
+                        .matchedGeometryEffect(id: post.id, in: namespace)
+                        .frame(height: 300)
+                        .accessibilityAddTraits(.isImage)
+                    
+                    if viewModel.loadDetails {
+                        HStack {
+                            Button {
+                                viewModel.loadDetails.toggle()
+                                withAnimation {
+                                    viewModel.isDetailShowing.toggle()
+                                    viewModel.unselectImage()
                                 }
+                                AccessibilityNotification.Announcement("Return back to main screen")
+                                    .post()
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .foregroundStyle(.white)
+                                    .padding()
+                                    .background(Color.black.opacity(0.5))
+                                    .clipShape(Circle())
                             }
-                    )
-                    .accessibilityZoomAction { action in
-                        if action.direction == .zoomIn {
-                            totalZoom += 1
-                        } else {
-                            totalZoom -= 1
+                            .accessibilityIdentifier("BackButtonButtonIdentifier")
+                            .accessibilityAddTraits(.isToggle)
+                            
+                            Spacer()
+                            
+                            Button {
+                                withAnimation(.spring) {
+                                    isSheetOpen.toggle()
+                                    AccessibilityNotification.Announcement("Loading share screen")
+                                        .post()
+                                }
+                            } label: {
+                                Image(systemName: "square.and.arrow.up")
+                                    .foregroundStyle(.red)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                            }
+                            .accessibilityIdentifier("ShareSheetButtonIdentifier")
+                            .accessibilityAddTraits(.isToggle)
                         }
+                        .padding(.top, 35)
+                        .padding(.horizontal)
                     }
+                }
                 
                 VStack(alignment: .leading, spacing: 10) {
                     Text(self.showDimensions)
@@ -65,28 +82,16 @@ struct DetailView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(10)
-            }
-            .navigationTitle("Detail")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button {
-                        isSheetOpen.toggle()
-                        AccessibilityNotification.Announcement("Loading share screen")
-                            .post()
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .accessibilityIdentifier("ShareSheetButtonIdentifier")
-                    .accessibilityAddTraits(.isToggle)
-                }
+                
+                Spacer()
             }
             .sheet(isPresented: $isSheetOpen, content: {
                 ActivityView(showing: $isSheetOpen, activityItems: post)
             })
         }
+        .background(viewModel.loadDetails ? .white : Color(UIColor.clear))
     }
-    
+
     private var imageSize: CGSize {
         do {
             let doc = try SwiftSoup.parse(post.description)
@@ -126,5 +131,5 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView(post: Flickr.MockImages[0])
+    DetailView(post: Flickr.MockImages[0], namespace: Namespace().wrappedValue, viewModel: SearchViewModel())
 }

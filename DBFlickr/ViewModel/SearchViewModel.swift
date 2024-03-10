@@ -13,9 +13,12 @@ final class SearchViewModel: ObservableObject {
     @Published var debounceSearchText = ""
     @Published var flickrImages: [Flickr] = []
     @Published var isLoading = false
+    @Published var loadDetails = false
     @Published var isDetailShowing = false
     @Published var errorMessage: String?
     @Published var selectedPost: Flickr?
+    @Published var selectedIndex = 0
+    
     private let service: FlickerManager
     
     init(service: FlickerManager = NetworkManager()) {
@@ -41,6 +44,21 @@ final class SearchViewModel: ObservableObject {
         } catch {
             guard let error = error as? FlickrError else { return }
             self.errorMessage = error.customDescription
+        }
+    }
+    
+    func selectImage(_ post: Flickr) {
+        if let index = flickrImages.firstIndex(where: {$0 == post}) {
+            selectedIndex = index
+            flickrImages.remove(at: index)
+            selectedPost = post
+        }
+    }
+    
+    func unselectImage() {
+        if let selectedPost {
+            self.selectedPost = nil
+            flickrImages.insert(selectedPost, at: selectedIndex)
         }
     }
     

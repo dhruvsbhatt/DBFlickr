@@ -29,6 +29,7 @@
 		FC48F71A2B7F132E005A8B91 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC48F7192B7F132E005A8B91 /* ShareSheet.swift */; };
 		FC5CB9EC2B8BDDBB00DBC754 /* UITestingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5CB9EA2B8BDD5000DBC754 /* UITestingHelper.swift */; };
 		FC7014F42B7FEE1000FC9726 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = FC7014F32B7FEE1000FC9726 /* SwiftSoup */; };
+		FCCD931D2B9A4C89007172E2 /* FlickrImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCD931C2B9A4C89007172E2 /* FlickrImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		FC7014F02B7FDFC800FC9726 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FC7014F12B7FE0E400FC9726 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FC9E4ACB2B8D73FA00C4AD8B /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
+		FCCD931C2B9A4C89007172E2 /* FlickrImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				FC19CEE42B7EA38400AAC4F7 /* SearchView.swift */,
+				FCCD931C2B9A4C89007172E2 /* FlickrImageView.swift */,
 				FC19CEF72B7EC30C00AAC4F7 /* DetailView.swift */,
 				FC19CF012B7EDC3D00AAC4F7 /* LoadingView.swift */,
 			);
@@ -398,6 +401,7 @@
 				FC19CEED2B7EA7DC00AAC4F7 /* NetworkManager.swift in Sources */,
 				FC19CEEA2B7EA62D00AAC4F7 /* SearchViewModel.swift in Sources */,
 				FC19CEF02B7EA9A200AAC4F7 /* Flickr.swift in Sources */,
+				FCCD931D2B9A4C89007172E2 /* FlickrImageView.swift in Sources */,
 				FC19CF022B7EDC3D00AAC4F7 /* LoadingView.swift in Sources */,
 				FC19CF042B7EE6C700AAC4F7 /* MockNetworkManager.swift in Sources */,
 				FC19CEF82B7EC30C00AAC4F7 /* DetailView.swift in Sources */,
