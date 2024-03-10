@@ -67,7 +67,7 @@ struct SearchView: View {
             }
             
             if viewModel.isDetailShowing {
-                FlickrDetailView(post: viewModel.selectedPost!, namespace: namespace, viewModel: viewModel)
+                DetailView(post: viewModel.selectedPost!, namespace: namespace, viewModel: viewModel)
                     .zIndex(1)
             }
         }
